@@ -11,23 +11,23 @@ interface UserApi {
     @GET("/users")
     suspend fun getAllUsers() : List<User>
 
-    // TODO - singleton
-    companion object {
-        private var retrofitService: UserApi? = null
-
-        fun getInstance(): UserApi {
-
-            if(retrofitService == null){
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("https://api.github.com/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-
-                //TODO - explicar ::class
-                retrofitService = retrofit.create(UserApi::class.java)
-            }
-            return retrofitService!!
-        }
-    }
+//    // TODO - singleton
+//    companion object {
+//        private var retrofitService: UserApi? = null
+//
+//        fun getInstance(): UserApi {
+//
+//            if(retrofitService == null){
+//                val retrofit = Retrofit.Builder()
+//                    .baseUrl("https://api.github.com/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build()
+//
+//                //TODO - explicar ::class
+//                retrofitService = retrofit.create(UserApi::class.java)
+//            }
+//            return retrofitService!!
+//        }
+//    }
 
 }
