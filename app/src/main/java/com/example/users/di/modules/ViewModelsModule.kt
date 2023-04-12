@@ -7,7 +7,6 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
 
-    //TODO - O koin vai criar o factory do viewModel
     viewModel {
         provideUserViewModel(userRepository = get())
     }

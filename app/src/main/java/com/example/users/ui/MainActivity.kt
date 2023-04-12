@@ -14,10 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    //TODO - Explicar by lazy e o porque do binding (by lazy  = uma forma de instanciar o obejto 1x só e qnd for utilizado)
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    //TODO - by viewModel - injeta uma viewModel (koin)
     private val userViewModel: UserViewModel by viewModel()
 
     private val adapter = MainAdapter { user ->
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //TODO - Ciclo de vida
     override fun onStart() {
         super.onStart()
 
@@ -58,14 +55,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    //TODO - Toda vez que entrar na tela atualiza
     override fun onResume() {
         super.onResume()
 
         userViewModel.getAllUsers()
     }
 
-    //TODO - Fragment (modal)
     private fun openLink(link: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
         startActivity(browserIntent)
