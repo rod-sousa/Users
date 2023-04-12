@@ -8,21 +8,18 @@ import com.example.users.model.User
 import com.example.users.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.await
-import retrofit2.awaitResponse
 
-class UserViewModel(private val userRepository: UserRepository): ViewModel() {
+class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    val userList =  MutableLiveData<List<User>>()
+    val userList = MutableLiveData<List<User>>()
     val errorMessage = MutableLiveData<String>()
 
     //TODO - Coroutine (dispatchers)
     fun getAllUsers() = viewModelScope.launch(Dispatchers.IO) {
         val response = userRepository.getAllUsers()
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             userList.postValue(response.body())
-        }else{
+        } else {
             Log.e("Erro", response.errorBody().toString())
             //errorMessage.postValue(response.message())
         }

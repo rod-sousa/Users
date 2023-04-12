@@ -8,13 +8,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.users.R
 import com.example.users.databinding.ResItemUserBinding
 import com.example.users.model.User
-import java.util.*
 
-class MainAdapter(private val onItemClicked: (User) -> Unit) : RecyclerView.Adapter<MainViewHolder>(){
+class MainAdapter(private val onItemClicked: (User) -> Unit) :
+    RecyclerView.Adapter<MainViewHolder>() {
 
     private var users = mutableListOf<User>()
 
-    fun setUserList(users: List<User>){
+    fun setUserList(users: List<User>) {
         this.users = users.toMutableList()
         notifyDataSetChanged()
     }
@@ -33,10 +33,9 @@ class MainAdapter(private val onItemClicked: (User) -> Unit) : RecyclerView.Adap
     override fun getItemCount(): Int {
         return users.size
     }
-
 }
 
-class MainViewHolder(val binding: ResItemUserBinding) : RecyclerView.ViewHolder(binding.root){
+class MainViewHolder(val binding: ResItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(user: User, onItemClicked: (User) -> Unit) {
 
         binding.tvNameUser.text = user.login.replaceFirstChar(Char::uppercase)
@@ -51,8 +50,19 @@ class MainViewHolder(val binding: ResItemUserBinding) : RecyclerView.ViewHolder(
             .load(user.avatar_url)
             .into(binding.ivAvatar)
 
-        itemView.setOnClickListener{
+        binding.tvId.text = user.id.toString()
+        binding.tvUrl.text = limitStringSize(user.html_url, 25)
+
+        itemView.setOnClickListener {
             onItemClicked(user)
         }
+    }
+
+    fun limitStringSize(inputString: String, maxLength: Int): String {
+        var resultString = inputString
+        if (inputString.length > maxLength) {
+            resultString = inputString.substring(0, maxLength - 3) + "..."
+        }
+        return resultString
     }
 }

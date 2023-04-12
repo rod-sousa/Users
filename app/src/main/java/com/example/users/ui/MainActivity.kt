@@ -2,33 +2,26 @@ package com.example.users.ui
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.Intents.Insert.ACTION
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.users.api.UserApi
 import com.example.users.databinding.ActivityMainBinding
-import com.example.users.repositories.UserRepositoryImpl
 import com.example.users.ui.adapters.MainAdapter
 import com.example.users.viewmodels.UserViewModel
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.context.GlobalContext.get
 
 class MainActivity : AppCompatActivity() {
 
     //TODO - Explicar by lazy e o porque do binding (by lazy  = uma forma de instanciar o obejto 1x só e qnd for utilizado)
-    private val binding by lazy {ActivityMainBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     //TODO - by viewModel - injeta uma viewModel (koin)
     private val userViewModel: UserViewModel by viewModel()
 
-    private val adapter = MainAdapter{
-
+    private val adapter = MainAdapter { user ->
+        createAlertDialog(user.html_url)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +49,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        userViewModel.userList.observe(this, Observer{ users ->
+        userViewModel.userList.observe(this, Observer { users ->
             adapter.setUserList(users)
         })
 
-        userViewModel.errorMessage.observe(this, Observer{error ->
+        userViewModel.errorMessage.observe(this, Observer { error ->
             Toast.makeText(this, error, Toast.LENGTH_LONG).show()
         })
     }
@@ -73,8 +66,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     //TODO - Fragment (modal)
-    private fun openLink(link: String){
+    private fun openLink(link: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
         startActivity(browserIntent)
+    }
+
+    private fun createAlertDialog(url: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Abrir URL")
+            .setMessage("Deseja sair do app e abrir Link?")
+            .setPositiveButton("Sim") { _, _ ->
+                openLink(url)
+            }.setNegativeButton("Não") { _, _ -> }
+            .show()
     }
 }

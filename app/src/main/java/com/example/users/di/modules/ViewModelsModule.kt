@@ -13,6 +13,6 @@ val viewModelsModule = module {
     }
 }
 
-fun provideUserViewModel(userRepository: UserRepository) : UserViewModel{
+fun provideUserViewModel(userRepository: UserRepository): UserViewModel {
     return UserViewModel(userRepository)
 }
