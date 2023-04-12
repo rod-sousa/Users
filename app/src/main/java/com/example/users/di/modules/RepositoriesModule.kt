@@ -9,8 +9,8 @@ import org.koin.dsl.module
 //TODO - Ensinando o Koin a criar minhas dependencias
 val repositoriesModule = module {
 
+    //TODO - Já que ensinei ao Koin como criar um userApi, só chamando o get() ele já vai saber qual injetar
     single<UserRepository> {
-        //TODO - Já que ensinei ao Koin como criar um userApi, só chamando o get() ele já vai saber qual injetar
         provideUserRepository(userApi = get())
     }
 }
